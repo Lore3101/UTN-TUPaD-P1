@@ -1,0 +1,335 @@
+"""
+TP7 - Recursividad
+Programación I - Tecnicatura Universitaria en Programación
+
+Este archivo contiene la resolución de los ejercicios de recursividad:
+1) Factorial de un número y factoriales desde 1 hasta n
+2) Serie de Fibonacci hasta una posición
+3) Potencia de un número (base^exponente)
+4) Conversión de decimal a binario (como cadena)
+5) Verificar si una palabra es palíndromo
+6) Suma de dígitos de un número entero positivo
+7) Cantidad de bloques necesarios para construir una pirámide
+8) Contar cuántas veces aparece un dígito en un número
+"""
+
+# ---------------------------------------------------------------------------
+# 1) Factorial recursivo
+# ---------------------------------------------------------------------------
+
+def factorial(n):
+    """
+    Calcula recursivamente el factorial de n.
+    Caso base:
+        - factorial(0) = 1
+        - factorial(1) = 1
+    Caso recursivo:
+        - n! = n * (n-1)!
+    """
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+
+
+def mostrar_factoriales_hasta_n():
+    """
+    Pide un número al usuario y muestra el factorial
+    de todos los enteros desde 1 hasta ese número.
+    """
+    n = int(input("Ingrese un número entero positivo: "))
+    if n < 1:
+        print("El número debe ser mayor o igual a 1.")
+        return
+
+    for i in range(1, n + 1):
+        print(f"Factorial de {i} = {factorial(i)}")
+
+
+# ---------------------------------------------------------------------------
+# 2) Serie de Fibonacci recursiva
+# ---------------------------------------------------------------------------
+
+def fibonacci(n):
+    """
+    Calcula el n-ésimo número de la serie de Fibonacci en forma recursiva.
+    Definición:
+        f(0) = 0
+        f(1) = 1
+        f(n) = f(n-1) + f(n-2) para n >= 2
+    """
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+
+def mostrar_fibonacci_hasta_posicion():
+    """
+    Pide una posición al usuario y muestra la serie
+    de Fibonacci desde la posición 0 hasta esa posición.
+    """
+    n = int(input("Ingrese una posición (entero >= 0): "))
+    if n < 0:
+        print("La posición debe ser mayor o igual a 0.")
+        return
+
+    print("Serie de Fibonacci:")
+    for i in range(n + 1):
+        print(fibonacci(i), end=" ")
+    print()  # salto de línea
+
+
+# ---------------------------------------------------------------------------
+# 3) Potencia recursiva
+# ---------------------------------------------------------------------------
+
+def potencia(base, exponente):
+    """
+    Calcula base^exponente recursivamente usando la fórmula:
+        n^m = n * n^(m-1)
+    Caso base:
+        cualquier número elevado a 0 es 1.
+    """
+    if exponente == 0:
+        return 1
+    return base * potencia(base, exponente - 1)
+
+
+def probar_potencia():
+    """
+    Pide base y exponente al usuario y muestra el resultado
+    de base^exponente calculado en forma recursiva.
+    """
+    base = int(input("Ingrese la base (entero): "))
+    exponente = int(input("Ingrese el exponente (entero >= 0): "))
+
+    if exponente < 0:
+        print("El exponente debe ser mayor o igual a 0.")
+        return
+
+    resultado = potencia(base, exponente)
+    print(f"{base} elevado a la {exponente} = {resultado}")
+
+
+# ---------------------------------------------------------------------------
+# 4) Conversión decimal a binario (recursiva)
+# ---------------------------------------------------------------------------
+
+def decimal_a_binario(n):
+    """
+    Convierte un número entero positivo en base decimal
+    a su representación binaria como cadena de texto,
+    utilizando recursividad.
+    """
+    if n < 2:
+        return str(n)
+    # concatenamos la parte binaria del cociente con el resto
+    return decimal_a_binario(n // 2) + str(n % 2)
+
+
+def probar_decimal_a_binario():
+    """
+    Pide un número decimal al usuario y muestra
+    su representación en binario.
+    """
+    n = int(input("Ingrese un número entero positivo: "))
+    if n < 0:
+        print("El número debe ser positivo.")
+        return
+
+    binario = decimal_a_binario(n)
+    print(f"El número {n} en binario es: {binario}")
+
+
+# ---------------------------------------------------------------------------
+# 5) Verificar si una palabra es palíndromo (recursivo)
+# ---------------------------------------------------------------------------
+
+def es_palindromo(palabra):
+    """
+    Determina recursivamente si una cadena de texto es un palíndromo.
+    Restricciones:
+        - No se utiliza [::-1] ni reversed().
+    """
+    if len(palabra) <= 1:
+        return True
+
+    if palabra[0] != palabra[-1]:
+        return False
+
+    # Llamada recursiva sin el primer y último carácter
+    return es_palindromo(palabra[1:-1])
+
+
+def probar_es_palindromo():
+    """
+    Pide una palabra (sin espacios ni tildes) y muestra
+    si es o no un palíndromo.
+    """
+    palabra = input("Ingrese una palabra (sin espacios ni tildes): ")
+    if es_palindromo(palabra):
+        print(f'"{palabra}" ES un palíndromo.')
+    else:
+        print(f'"{palabra}" NO es un palíndromo.')
+
+
+# ---------------------------------------------------------------------------
+# 6) Suma de dígitos de un número entero positivo (recursivo)
+# ---------------------------------------------------------------------------
+
+def suma_digitos(n):
+    """
+    Suma recursivamente los dígitos de un número entero positivo.
+    Restricción:
+        - No se convierte el número a string.
+        - Se usan las operaciones % y //.
+    """
+    if n < 10:
+        # caso base: un solo dígito
+        return n
+
+    # último dígito + suma de los demás
+    return (n % 10) + suma_digitos(n // 10)
+
+
+def probar_suma_digitos():
+    """
+    Pide un número entero positivo al usuario
+    y muestra la suma de sus dígitos.
+    """
+    n = int(input("Ingrese un número entero positivo: "))
+    if n < 0:
+        print("El número debe ser positivo.")
+        return
+
+    resultado = suma_digitos(n)
+    print(f"La suma de los dígitos de {n} es: {resultado}")
+
+
+# ---------------------------------------------------------------------------
+# 7) Pirámide de bloques (contar_bloques)
+# ---------------------------------------------------------------------------
+
+def contar_bloques(n):
+    """
+    Calcula recursivamente el total de bloques necesarios
+    para construir una pirámide donde el nivel más bajo
+    tiene n bloques, el siguiente n-1, y así sucesivamente
+    hasta llegar a 1.
+    """
+    if n == 1:
+        return 1
+    return n + contar_bloques(n - 1)
+
+
+def probar_contar_bloques():
+    """
+    Pide el número de bloques del nivel más bajo y
+    muestra el total de bloques necesarios para la pirámide.
+    """
+    n = int(input("Ingrese la cantidad de bloques del nivel más bajo: "))
+    if n < 1:
+        print("El número debe ser mayor o igual a 1.")
+        return
+
+    total = contar_bloques(n)
+    print(f"Para una pirámide con {n} bloques en la base se necesitan {total} bloques en total.")
+
+
+# ---------------------------------------------------------------------------
+# 8) Contar cuántas veces aparece un dígito en un número (recursivo)
+# ---------------------------------------------------------------------------
+
+def contar_digito(numero, digito):
+    """
+    Cuenta recursivamente cuántas veces aparece 'digito'
+    dentro de 'numero'.
+    Restricción:
+        - numero es un entero positivo
+        - digito es un entero entre 0 y 9
+    """
+    if numero == 0:
+        return 0
+
+    ultimo = numero % 10
+    coincide = 1 if ultimo == digito else 0
+
+    # llamamos recursivamente con el número sin el último dígito
+    return coincide + contar_digito(numero // 10, digito)
+
+
+def probar_contar_digito():
+    """
+    Pide un número entero positivo y un dígito al usuario,
+    y muestra cuántas veces aparece ese dígito dentro del número.
+    """
+    numero = int(input("Ingrese un número entero positivo: "))
+    if numero < 0:
+        print("El número debe ser positivo.")
+        return
+
+    digito = int(input("Ingrese un dígito (0 a 9): "))
+    if digito < 0 or digito > 9:
+        print("El dígito debe estar entre 0 y 9.")
+        return
+
+    cantidad = contar_digito(numero, digito)
+    print(f"El dígito {digito} aparece {cantidad} vez/veces en el número {numero}.")
+
+
+# ---------------------------------------------------------------------------
+# Menú principal para probar todos los ejercicios
+# ---------------------------------------------------------------------------
+
+def mostrar_menu():
+    """
+    Muestra el menú de opciones para probar cada ejercicio.
+    """
+    print("\n===== TP7 - Recursividad - Menú de opciones =====")
+    print("1) Factorial de números desde 1 hasta n")
+    print("2) Serie de Fibonacci hasta una posición")
+    print("3) Potencia (base^exponente) recursiva")
+    print("4) Conversión de decimal a binario")
+    print("5) Verificar si una palabra es palíndromo")
+    print("6) Suma de dígitos de un número")
+    print("7) Contar bloques para una pirámide")
+    print("8) Contar cuántas veces aparece un dígito en un número")
+    print("0) Salir")
+
+
+def main():
+    """
+    Función principal del programa.
+    Permite al usuario elegir qué ejercicio probar.
+    """
+    while True:
+        mostrar_menu()
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            mostrar_factoriales_hasta_n()
+        elif opcion == "2":
+            mostrar_fibonacci_hasta_posicion()
+        elif opcion == "3":
+            probar_potencia()
+        elif opcion == "4":
+            probar_decimal_a_binario()
+        elif opcion == "5":
+            probar_es_palindromo()
+        elif opcion == "6":
+            probar_suma_digitos()
+        elif opcion == "7":
+            probar_contar_bloques()
+        elif opcion == "8":
+            probar_contar_digito()
+        elif opcion == "0":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+
+# Punto de entrada del programa
+if __name__ == "__main__":
+    main()
